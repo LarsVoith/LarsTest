@@ -44,6 +44,50 @@ var app = {
         listeningElement.setAttribute('style', 'display:none;');
         receivedElement.setAttribute('style', 'display:block;');
 
-        console.log('Received Event: ' + id);
+		
+		var sync = ContentSync.sync({ 
+		src: 'https://github.com/LarsVoith/LarsTest/archive/master.zip', 
+		id: 'test', 
+		type:'replace'
+		///copyCordovaAssets: true,
+		//copyRootApp: true
+		
+		
+		 });
+		   
+		  sync.on('progress', function(data) {
+			 //alert( data.progress); 
+			  document.getElementById("text").innerHTML = data.progress;
+			  
+		  });
+		   
+		  sync.on('complete', function(data) {
+			  alert("complete"+data.localPath); 
+			 // window.open(data.localPath+"/LarsTest-master/index.html", '_blank','EnableViewPortScale=yes,location=no,closebuttoncaption=Home');
+			document.getElementById("text").innerHTML = "<a href='"+data.localPath+"/LarsTest-master/index.html'>test link</a>";
+			 
+			  
+		  });
+		   
+		  sync.on('error', function(e) {
+			  alert("error"+e); 
+		  });
+		   
+		  sync.on('cancel', function() {
+			  alert("triggered if event is cancelled"); 
+		});
+		
+		
+		$( document ).ready(function() {
+			alert();
+		$('body').doubletap(function() {
+			alert('doubletap'); 
+    		window.location('index.html','_self');
+			 
+		  });
+		});
+		
+		
+		
     }
 };
